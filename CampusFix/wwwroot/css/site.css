@@ -1,0 +1,9 @@
+.cf-navbar { background: linear-gradient(90deg, #1e3a8a, #4f46e5); }
+.cf-hero { background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 60%, #7c3aed 100%); }
+.cf-card { border: 0; border-radius: 1rem; transition: transform .15s ease, box-shadow .15s ease; }
+.cf-card:hover { box-shadow: 0 .5rem 1.25rem rgba(0,0,0,.12); }
+.cf-stat { border-width: 0 0 0 5px; border-radius: .75rem; }
+.cf-footer { color: var(--bs-secondary-color); border-top: 1px solid var(--bs-border-color); }
+.cf-comment { padding: .6rem .8rem; margin-bottom: .6rem; border-radius: .6rem; background: var(--bs-tertiary-bg); }
+.cf-comment-admin { border-left: 4px solid #ffc107; }
+.table > :not(caption) > * > * { padding-top: .8rem; padding-bottom: .8rem; }

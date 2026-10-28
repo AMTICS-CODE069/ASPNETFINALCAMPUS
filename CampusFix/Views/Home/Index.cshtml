@@ -1,0 +1,51 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="cf-hero text-center text-white rounded-4 p-5 mb-5">
+    <h1 class="display-5 fw-bold">Got a campus problem? <span class="text-warning">Get it fixed.</span></h1>
+    <p class="lead mx-auto" style="max-width:640px">
+        CampusFix lets students report hostel, mess, Wi-Fi and classroom issues in seconds,
+        and lets the admin team track and resolve them transparently.
+    </p>
+    @if (Context.Session.GetInt32("UserId") == null)
+    {
+        <a class="btn btn-warning btn-lg me-2" asp-controller="Account" asp-action="Register">Get Started</a>
+        <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Login">Login</a>
+    }
+    else
+    {
+        <a class="btn btn-warning btn-lg" asp-controller="Complaints" asp-action="Index">Go to my complaints</a>
+    }
+
+    <div class="row justify-content-center mt-5 g-3">
+        <div class="col-4 col-md-2"><div class="fs-2 fw-bold">@ViewBag.Total</div><div class="small">Complaints raised</div></div>
+        <div class="col-4 col-md-2"><div class="fs-2 fw-bold">@ViewBag.Resolved</div><div class="small">Resolved</div></div>
+        <div class="col-4 col-md-2"><div class="fs-2 fw-bold">@ViewBag.Students</div><div class="small">Students</div></div>
+    </div>
+</section>
+
+<h3 class="text-center mb-4">How it works</h3>
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card cf-card h-100 text-center p-3">
+            <div class="fs-1 text-primary"><i class="bi bi-pencil-square"></i></div>
+            <h5>1. Raise</h5>
+            <p class="text-body-secondary mb-0">Fill a quick form with category, priority and location.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card cf-card h-100 text-center p-3">
+            <div class="fs-1 text-warning"><i class="bi bi-hourglass-split"></i></div>
+            <h5>2. Track</h5>
+            <p class="text-body-secondary mb-0">Watch your complaint move from Pending to In Progress.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card cf-card h-100 text-center p-3">
+            <div class="fs-1 text-success"><i class="bi bi-patch-check"></i></div>
+            <h5>3. Resolve</h5>
+            <p class="text-body-secondary mb-0">Admins update the status and leave remarks for you.</p>
+        </div>
+    </div>
+</div>

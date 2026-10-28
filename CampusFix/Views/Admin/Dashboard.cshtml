@@ -1,0 +1,72 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var max = Model.ByCategory.Any() ? Model.ByCategory.Values.Max() : 1;
+}
+
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Admin Dashboard</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><div class="card cf-stat border-primary"><div class="card-body"><div class="small text-body-secondary">Total</div><div class="fs-2 fw-bold">@Model.Total</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card cf-stat border-warning"><div class="card-body"><div class="small text-body-secondary">Pending</div><div class="fs-2 fw-bold">@Model.Pending</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card cf-stat border-info"><div class="card-body"><div class="small text-body-secondary">In Progress</div><div class="fs-2 fw-bold">@Model.InProgress</div></div></div></div>
+    <div class="col-6 col-lg-3"><div class="card cf-stat border-success"><div class="card-body"><div class="small text-body-secondary">Resolved</div><div class="fs-2 fw-bold">@Model.Resolved</div></div></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card cf-card h-100">
+            <div class="card-body">
+                <h5>Resolution rate</h5>
+                <div class="progress mb-1" style="height:22px">
+                    <div class="progress-bar bg-success" style="width:@(Model.ResolutionRate.ToString(System.Globalization.CultureInfo.InvariantCulture))%">@Model.ResolutionRate%</div>
+                </div>
+                <div class="small text-body-secondary mb-4">@Model.Resolved of @Model.Total complaints resolved &middot; @Model.Students students registered</div>
+
+                <h5>By category</h5>
+                @if (!Model.ByCategory.Any()) { <p class="text-body-secondary small">No data yet.</p> }
+                @foreach (var kv in Model.ByCategory)
+                {
+                    var pct = (kv.Value * 100 / max).ToString();
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between small"><span>@kv.Key</span><span>@kv.Value</span></div>
+                        <div class="progress" style="height:8px"><div class="progress-bar" style="width:@pct%"></div></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card cf-card mb-4">
+            <div class="card-body">
+                <h5 class="text-danger"><i class="bi bi-fire"></i> Urgent (high priority, still open)</h5>
+                @if (!Model.Urgent.Any()) { <p class="text-body-secondary small mb-0">Nothing urgent. Nice!</p> }
+                @foreach (var c in Model.Urgent)
+                {
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <a asp-controller="Complaints" asp-action="Details" asp-route-id="@c.Id" class="text-decoration-none">@c.Title</a>
+                        <span class="badge @UiHelper.StatusClass(c.Status)">@UiHelper.StatusText(c.Status)</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card cf-card">
+            <div class="card-body">
+                <h5>Recent complaints</h5>
+                @foreach (var c in Model.Recent)
+                {
+                    <div class="d-flex justify-content-between border-bottom py-2">
+                        <div>
+                            <a asp-controller="Complaints" asp-action="Details" asp-route-id="@c.Id" class="text-decoration-none">@c.Title</a>
+                            <div class="small text-body-secondary">@c.User?.FullName &middot; @c.CreatedAt.ToString("dd MMM")</div>
+                        </div>
+                        <span class="badge align-self-start @UiHelper.StatusClass(c.Status)">@UiHelper.StatusText(c.Status)</span>
+                    </div>
+                }
+                <a asp-controller="Complaints" asp-action="Index" class="btn btn-sm btn-outline-primary mt-3">View all complaints</a>
+            </div>
+        </div>
+    </div>
+</div>

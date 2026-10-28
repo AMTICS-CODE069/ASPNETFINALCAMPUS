@@ -1,0 +1,20 @@
+@model ComplaintFormViewModel
+@{
+    ViewData["Title"] = "New Complaint";
+}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card cf-card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="mb-3"><i class="bi bi-plus-circle"></i> Raise a complaint</h3>
+                <form asp-action="Create" method="post" novalidate>
+                    <partial name="_ComplaintForm" model="Model" />
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
